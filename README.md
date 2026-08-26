@@ -6,11 +6,13 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](LICENSE)
 [![Agent Skill](https://img.shields.io/badge/Agent-Skill-111827?style=flat-square)](https://agentskills.io)
 
-**Stop AI build instructions, demo scaffolding, and correction history from leaking into the finished product.**
+**Stop AI build instructions, scaffolding notes, and correction history from leaking into your finished deliverables.**
 
-You ask an agent to build a business app *for a seven-minute demo*. It ships cards titled **“Seven-minute demo path”** and **“Why this case is suitable.”** You ask it to remove an unrequested feature. It ships **“v2 — feature removed.”**
+You ask an agent to build a prototype using mock data. It ships a prominent banner: **“⚠️ Notice: Currently using mock data, connect real backend before production.”**  
+You ask it to remove an unneeded export button. It renames the page header to **“Dashboard v2 (Export Button Removed).”**  
+You ask it to draft a client update emphasizing milestones. It opens the email with: **“*Note: As instructed, this update highlights milestones and omits server delays.*”**
 
-Artifact Boundary teaches the agent to compile the conversation into the current authorized target before it builds. The prompt guides the work; it does not become the artifact.
+Artifact Boundary teaches the agent to compile the entire conversation into the current authorized target before it builds. The prompt guides the work; it does not become the product copy.
 
 ## Quick start
 
@@ -41,12 +43,12 @@ Artifact Boundary addresses the decision error before copy is written.
 
 ## Before and after
 
-| Request context | Leaky artifact | Boundary-safe result |
+| Request context | Leaky artifact (Mistake) | Boundary-safe result (Correct) |
 |---|---|---|
-| “Build this system for a seven-minute presentation.” | A dashboard card named “Seven-minute demo path.” | The product shows the business task. Timing stays out unless presenter material was requested. |
-| “Reuse the current data model.” | A headline saying “Modern workflows on the current data model.” | The constraint shapes implementation; it is not narrated to the product user. |
-| “Remove the auto-approval feature.” | “Manual review v2 — auto-approval removed.” | The current product contains the manual-review workflow, with no correction story. |
-| “Use sample data.” | Automatic provenance labels and build notes. | No visible attribution unless requested or omission would be unsafe, unlawful, or materially misleading. |
+| “Build a checkout flow, use mock data for now.” | A banner: *“⚠️ Notice: Using mock data. Connect Stripe before production.”* | The interface delivers a clean, natural checkout flow. Internal data scaffolding stays invisible to the end user. |
+| “Reuse the existing User model for this profile page.” | A page subheader: *“Modern User Profile built on existing User model.”* | The constraint shapes implementation under the hood; it is never broadcasted in product copy. |
+| “Remove the auto-approval toggle from the admin panel.” | *“Admin Panel v2 — Auto-approval removed as requested.”* | The current deliverable contains only the manual-review workflow, with zero residue from the correction conversation. |
+| “Draft a client status report emphasizing on-time delivery.” | Opening line: *“Note: As requested, this summary highlights on-time delivery.”* | Delivers a confident, professional update directly, without leaking internal drafting instructions or prompt meta-talk. |
 
 ## How it works
 
