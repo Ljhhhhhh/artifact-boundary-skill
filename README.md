@@ -6,15 +6,15 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](LICENSE)
 [![Agent Skill](https://img.shields.io/badge/Agent-Skill-111827?style=flat-square)](https://agentskills.io)
 
-**Ship clean, production-ready deliverables without prompt residue, dev scaffolding, or conversation history leaking through.**
+**Keep AI build instructions, developer scaffolding, and correction history out of finished deliverables.**
 
-Anyone who has used AI to build UIs, draft prototypes, or generate reports has seen these cringe-worthy moments:
+When generating UI prototypes, code, or reports, AI models frequently leak prompt context into the final output:
 
-- **Scaffolding becomes copy:** You ask for a quick dashboard with mock data. It slaps a giant yellow warning across the top: *“⚠️ Notice: Using mock data. Connect real backend before production.”*
-- **Git diff becomes page title:** You ask it to remove the export button. Refresh the page, and the header is now: *“Dashboard v2 (Export button removed)”*.
-- **Prompts leaked to clients:** You ask for a polite client update. It opens with: *“As instructed, this report has been written in a polite tone...”*
+- **Development notes become UI copy:** A prompt specifying *"use mock data for now"* renders a prominent banner: *“⚠️ Notice: Using mock data. Connect real backend before production.”*
+- **Change requests become artifact titles:** A prompt asking to *"remove the export button"* produces the heading: *“Dashboard v2 (Export button removed)”*.
+- **Internal drafting constraints leak to clients:** A prompt requesting a *"polite status update"* begins with: *“As instructed, this report has been written in a polite tone...”*
 
-AI agents tend to treat every sentence in the chat history as candidate copy. **Artifact Boundary** sets a strict boundary: **prompts are blueprints for the builder, not text for the end user**. Internal scaffolding, back-and-forth debate, and discarded ideas stay out of the final product.
+**Artifact Boundary** enforces a strict boundary between builder instructions and user-facing artifacts: **prompts guide construction, while deliverables serve the end user**. Temporary scaffolding, conversational reasoning, and discarded iterations are kept out of the final result.
 
 ## Quick start
 
@@ -45,12 +45,12 @@ Artifact Boundary addresses the decision error before copy is written.
 
 ## Before and after
 
-| Request context | Leaky artifact (Mistake) | Boundary-safe result (Correct) |
+| Request context | Leaked artifact (Incorrect) | Clean deliverable (Correct) |
 |---|---|---|
-| “Build a checkout flow, use mock data for now.” | A banner: *“⚠️ Notice: Using mock data. Connect Stripe before production.”* | The interface delivers a clean, natural checkout flow. Internal data scaffolding stays invisible to the end user. |
-| “Reuse the existing User model for this profile page.” | A page subheader: *“Modern User Profile built on existing User model.”* | The constraint shapes implementation under the hood; it is never broadcasted in product copy. |
-| “Remove the auto-approval toggle from the admin panel.” | *“Admin Panel v2 — Auto-approval removed as requested.”* | The current deliverable contains only the manual-review workflow, with zero residue from the correction conversation. |
-| “Draft a client status report emphasizing on-time delivery.” | Opening line: *“Note: As requested, this summary highlights on-time delivery.”* | Delivers a confident, professional update directly, without leaking internal drafting instructions or prompt meta-talk. |
+| “Build a checkout page using mock data for now.” | Banner: *“⚠️ Notice: Using mock data. Connect real gateway before production.”* | Clean checkout flow with no internal data-source notes exposed to the user. |
+| “Reuse the existing User model for this profile page.” | Subheading: *“User Profile built on the existing User model.”* | Architecture constraint guides implementation only; omitted from user-facing copy. |
+| “Remove the auto-approval toggle from the admin panel.” | Heading: *“Admin Panel v2 — Auto-approval removed.”* | Clean manual-review interface containing only active workflows with no correction traces. |
+| “Draft a project update emphasizing on-time delivery.” | Opening line: *“Note: As requested, this summary highlights on-time delivery.”* | Professional update delivered directly without exposing prompt instructions or metadata. |
 
 ## How it works
 
