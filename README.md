@@ -6,13 +6,15 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](LICENSE)
 [![Agent Skill](https://img.shields.io/badge/Agent-Skill-111827?style=flat-square)](https://agentskills.io)
 
-**Stop AI build instructions, scaffolding notes, and correction history from leaking into your finished deliverables.**
+**Ship clean, production-ready deliverables without prompt residue, dev scaffolding, or conversation history leaking through.**
 
-You ask an agent to build a prototype using mock data. It ships a prominent banner: **“⚠️ Notice: Currently using mock data, connect real backend before production.”**  
-You ask it to remove an unneeded export button. It renames the page header to **“Dashboard v2 (Export Button Removed).”**  
-You ask it to draft a client update emphasizing milestones. It opens the email with: **“*Note: As instructed, this update highlights milestones and omits server delays.*”**
+Anyone who has used AI to build UIs, draft prototypes, or generate reports has seen these cringe-worthy moments:
 
-Artifact Boundary teaches the agent to compile the entire conversation into the current authorized target before it builds. The prompt guides the work; it does not become the product copy.
+- **Scaffolding becomes copy:** You ask for a quick dashboard with mock data. It slaps a giant yellow warning across the top: *“⚠️ Notice: Using mock data. Connect real backend before production.”*
+- **Git diff becomes page title:** You ask it to remove the export button. Refresh the page, and the header is now: *“Dashboard v2 (Export button removed)”*.
+- **Prompts leaked to clients:** You ask for a polite client update. It opens with: *“As instructed, this report has been written in a polite tone...”*
+
+AI agents tend to treat every sentence in the chat history as candidate copy. **Artifact Boundary** sets a strict boundary: **prompts are blueprints for the builder, not text for the end user**. Internal scaffolding, back-and-forth debate, and discarded ideas stay out of the final product.
 
 ## Quick start
 
@@ -34,8 +36,8 @@ Use $artifact-boundary to review this prototype before handoff. Keep implementat
 
 AI agents often treat every sentence in a request as candidate product content. This creates four recurring defects:
 
-- **Instruction-to-artifact leakage:** implementation constraints become headings, cards, help text, or report copy.
-- **Unauthorized promotion:** an optional idea is silently implemented because it seems useful or impressive.
+- **Instruction leakage:** implementation constraints become headings, cards, help text, or report copy.
+- **Unauthorized additions:** unrequested ideas are silently implemented just because they seemed neat.
 - **Wrong-surface content:** presenter notes, design rationale, or acceptance criteria appear in the product itself.
 - **Correction residue:** rejected ideas survive as “v2,” “removed,” negative rules, fixtures, or explanatory copy.
 
@@ -57,7 +59,7 @@ conversation
     ↓
 compile the current authorized target
     ↓
-authorize scope
+authorize scope (no silent feature creep)
     ↓
 qualify user-facing content
     ↓
@@ -69,10 +71,10 @@ build and review as a fresh user
 The skill applies five core decisions:
 
 1. **Compile the current target** — identify the artifact, audience, task, authorized behavior, and genuinely required disclosures.
-2. **Authorize scope before implementation** — propose optional ideas instead of silently shipping them.
-3. **Qualify user-facing content** — visible content must serve the intended user's task or a required disclosure.
-4. **Route content to the correct surface** — implement behavior as behavior; keep internal and presenter material outside the product unless those artifacts were requested.
-5. **Replace corrected state** — rebuild from the latest target instead of narrating the correction.
+2. **Authorize scope before implementation** — propose optional ideas separately instead of silently shipping them.
+3. **Qualify user-facing content** — every visible element must serve the intended user's task or a required disclosure.
+4. **Route content to the correct surface** — implement behavior as code logic, not descriptive prose; keep internal and presenter material outside the product.
+5. **Replace corrected state** — rebuild cleanly from the latest target instead of narrating the correction history.
 
 See [`SKILL.md`](skills/artifact-boundary/SKILL.md) for the complete operating rules and cases.
 
