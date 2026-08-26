@@ -1,0 +1,7 @@
+interface:
+  display_name: "Artifact Boundary"
+  short_description: "Keep artifacts and code within authorized scope"
+  default_prompt: "Use $artifact-boundary to keep this artifact or implementation within the current authorized target and remove process residue before handoff."
+
+policy:
+  allow_implicit_invocation: true
