@@ -1,5 +1,7 @@
 # Artifact Boundary
 
+[English](README.md) | [简体中文](README.zh-CN.md)
+
 [![Release](https://img.shields.io/github/v/release/Ljhhhhhh/artifact-boundary-skill?style=flat-square)](https://github.com/Ljhhhhhh/artifact-boundary-skill/releases/latest)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](LICENSE)
 [![Agent Skill](https://img.shields.io/badge/Agent-Skill-111827?style=flat-square)](https://agentskills.io)
@@ -127,7 +129,8 @@ Do not create the link over an existing skill directory. Inspect or move the exi
 │       └── agents/
 │           └── openai.yaml
 ├── LICENSE
-└── README.md
+├── README.md
+└── README.zh-CN.md
 ```
 
 The skill has no runtime dependencies, network calls, scripts, or bundled executables.
