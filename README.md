@@ -55,26 +55,26 @@ Artifact Boundary addresses the decision error before copy is written.
 ## How it works
 
 ```text
-conversation
+User Request / Correction
     ↓
-compile the current authorized target
+Two-Pass Decoupling (Quarantine control context from target spec)
     ↓
-authorize scope (no silent feature creep)
+Pure Implementation (Build authorized domain artifact only)
     ↓
-qualify user-facing content
+Pre-Handoff Static Scan (Regex scan for boundary leaks)
     ↓
-route behavior and internal material correctly
+Fresh User Blind Test Gate
     ↓
-build and review as a fresh user
+Deliver Pure Artifact
 ```
 
 The skill applies five core decisions:
 
-1. **Compile the current target** — identify the artifact, audience, task, authorized behavior, and genuinely required disclosures.
-2. **Authorize scope before implementation** — propose optional ideas separately instead of silently shipping them.
-3. **Qualify user-facing content** — every visible element must serve the intended user's task or a required disclosure.
-4. **Route content to the correct surface** — implement behavior as code logic, not descriptive prose; keep internal and presenter material outside the product.
-5. **Replace corrected state** — rebuild cleanly from the latest target instead of narrating the correction history.
+1. **Two-Pass Decoupling** — isolate prompt control context (timings, defenses, mock notes) from target business specifications.
+2. **Fresh User Blind Test** — every visible element must make complete sense to a user who never saw the prompt.
+3. **Surgical Cutover** — rebuild from current target as if superseded features never existed, with zero negative rules or version tags.
+4. **Behavior as Behavior** — implement constraints as code logic rather than explanatory on-screen prose.
+5. **No Structural Meta-Scaffolding** — eliminate delivery explanation bars, prompt-defense banners, and developer wrappers.
 
 See [`SKILL.md`](skills/artifact-boundary/SKILL.md) for the complete operating rules and cases.
 

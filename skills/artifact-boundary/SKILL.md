@@ -1,87 +1,72 @@
 ---
 name: artifact-boundary
-description: Prevent internal instructions, design rationale, demo scaffolding, unauthorized additions, and superseded decisions from leaking into finished user-facing artifacts. Use when creating or reviewing interfaces, prototypes, reports, decks, exports, CLI text, or documentation whose prompt contains implementation constraints, presentation guidance, internal reasoning, or corrected requirements.
+description: Universal delivery boundary gatekeeper. MUST USE when creating, modifying, refactoring, or reviewing ANY user-facing artifacts and deliverables (web pages, HTML, UI components, prototypes, reports, decks, dashboards, docs, APIs, CLI tools, scripts), especially when prompts contain implementation constraints, demo backgrounds, mock rules, temporary shortcuts, or requirement corrections (页面开发/原型制作/报表生成/需求变更/纠偏/废弃逻辑清理/去内部残留/MVP交付/交付物审查). Ensures finished artifacts contain ONLY what the real end-user needs, with ZERO leak of internal instructions, model defenses, demo scaffolding, or superseded version residue.
 ---
 
 # Artifact Boundary
 
-Compile the conversation into the current authorized target, then build the artifact from that target. Do not render the conversation itself.
+Deliver pure, end-user-ready artifacts. Compile the conversation into the current authorized target, then build exclusively from that target. Never render the conversation, prompt constraints, or development history inside the user-facing product.
 
-## Core rules
+## Core Rules
 
-1. **Compile the current target.** Identify the finished artifact, its real audience, the audience's task, the currently authorized content and behavior, and any disclosure explicitly requested or necessary for safe, lawful, or non-misleading use.
-2. **Authorize scope before implementation.** Include what the user requested and what is strictly necessary for it to work. Offer optional improvements separately; do not silently implement them.
-3. **Qualify user-facing content.** A visible element must help the intended audience understand a fact or state, complete an action, make a decision, or receive a required disclosure. Implementation constraints, design rationale, prompt structure, demo timing, talking points, acceptance criteria, internal codes, and agent reasoning do not become product copy merely because they appeared in the request.
-4. **Route content to the correct surface.** Implement behavior as behavior. Keep presenter guidance, technical material, and decision history in their own artifacts only when those artifacts are in scope. Placement does not create authorization to add a new document or surface.
-5. **Replace corrected state.** When a requirement is corrected or rejected, update the target and rebuild the affected result. Do not preserve the correction as a feature, title, version label, explanation, negative rule, or lesson inside the current artifact.
+1. **Two-Pass Decoupling (两段式解耦):** Split the input prompt into two isolated buffers:
+   - **Target Business Specification:** Real domain entities, workflows, user-visible facts, actions, and necessary disclosures.
+   - **Control Context (Quarantine):** Demo timeframes (e.g., "7-minute pitch"), mock instructions, prompt justifications, model defenses, development backgrounds, and rejected ideas.
+   *Rule:* Tokens from the Control Context must NEVER appear in UI labels, headings, badges, placeholder texts, comments, or DOM containers.
+2. **The Fresh User Blind Test (陌生用户盲测准则):** Ask: *Would a real business user who never saw the prompt understand or need this element?* If an element only exists to prove prompt compliance, explain build shortcuts, or justify data absence, it is forbidden in the artifact.
+3. **Surgical Cutover (外科手术式无痕替换):** When a requirement is corrected, modified, or canceled, rebuild the affected surface as if the superseded feature NEVER existed. Do not retain "V2 (deprecated V1)", "Auto-approval removed", or negative rules ("This system does not do X") in product surfaces.
+4. **Behavior as Behavior, Never as Narrative:** Implement constraints (e.g., performance shortcuts, mocked endpoints, layout constraints) directly in logic/code. Do not explain them on the screen with banners, delivery bars, or footnotes unless explicitly requested as a business disclosure.
+5. **No Structural Meta-Scaffolding:** Do not add helper banners, developer status bars, `.deliver` bars, or prompt-defense cards on top of or surrounding the main deliverable.
 
-If the requested artifact is itself a retrospective, decision record, migration history, or regulated record, its purpose authorizes the relevant history. Do not copy that history into the current product.
+## Anti-Pattern Matrix & Banned Residues
 
-## Workflow
-
-### 1. Compile the boundary
-
-Before editing, identify:
-
-- the finished artifact;
-- its intended audience and the task they need to complete;
-- the latest authorized content and behavior;
-- disclosures explicitly requested or necessary for safe, lawful, or non-misleading use;
-- instructions that guide implementation but should not be visible;
-- suggestions not yet authorized and requirements that have been superseded.
-
-Treat the last two groups as control context, not source copy.
-
-### 2. Classify source material
-
-Classify relevant inputs as:
-
-- **User-facing:** explicitly requested copy or information the audience needs for its task;
-- **Behavior:** a capability or constraint to implement rather than narrate;
-- **Internal:** implementation detail, design rationale, presenter guidance, acceptance criteria, or agent reasoning;
-- **Disclosure:** information that must be visible because the user requested it or omission would make use unsafe, unlawful, or materially misleading. Known provenance alone does not authorize visible attribution;
-- **Unapproved:** an optional idea that may be proposed but not implemented;
-- **Superseded:** a rejected or corrected state that must not feed the current artifact.
-
-For any visible element, ask: *Why would an intended user who never saw the prompt need this?* If the answer is only to explain the build, guide the presenter, defend a design, or record a correction, keep it out of the artifact.
-
-### 3. Build from the current target
-
-Write in the audience's language and show only information that supports the next valid task or decision. Keep product, presenter, and technical surfaces distinct; create supporting material only when requested.
-
-After a correction, sweep the current artifact and the code or data that generates it for labels, headings, examples, fixtures, controls, and active branches that still expose or implement the rejected idea. Remove residues that no longer serve the current target; do not turn this skill into a general rule for deleting tests, comments, compatibility mechanisms, or historical records.
-
-### 4. Review as a fresh user
-
-Inspect the rendered or executed result without using the production conversation to justify it. Ask:
-
-- Does every visible element serve the intended audience's task?
-- Did any implementation instruction, talking point, or design argument become product content?
-- Was any unapproved idea implemented?
-- Can any element be understood only by knowing what was corrected or rejected?
-- Does a standalone screenshot or export look like the finished product rather than an explanation of how to present or build it?
-
-Inspect the applicable visible and interactive states when implementation was requested. For review-only work, report findings without changing the artifact.
-
-## Cases
-
-| Situation | Correct result | Incorrect result |
+| Category | Banned Leakage (Negative Patterns) | Authorized Clean Standard |
 |---|---|---|
-| A business system is built for a seven-minute demonstration, using a prepared path and an OCR shortcut. | The interface shows the real user's business objects, states, actions, and results. Keep timing and talking points in presenter material only if requested. Do not add provenance or sample-data copy unless it is requested or omission would materially mislead the audience. | Cards titled "seven-minute demo path," "why this case is suitable," product-value talking points, or "OCR is skipped for the demo" inside the business interface. |
-| A ticket feature must reuse the current data model. | Implement the ticket workflow within that constraint and document the constraint only in an authorized technical artifact. | A user-facing heading such as "Modern ticket handling on the current data model," or extra workflows added to demonstrate the architecture. |
-| A manual-review workflow was given an unrequested auto-approval feature, which the user then rejected. | Deliver the manual-review workflow as the current product. Remove auto-approval from the target and affected product surfaces. | "Manual review v2," "auto-approval removed," a new rule saying this product must never auto-approve, or controls and fixtures that still imply the rejected feature. |
-| The user explicitly requests a retrospective of a rejected approach. | Explain the approach and decision in the retrospective. Keep the current product focused on current behavior. | Suppress relevant history from the retrospective, or copy that history into the product UI and current operating guide. |
+| **Demo & Mock Scaffolding** | `7分钟演示专用`, `Demo 页面`, `OCR 已跳过/写死数据`, `演示路径卡片` | 呈现纯粹的真实业务界面与操作流程；演示说明放入独立讲稿或控制台。 |
+| **Model Defense & Data Caveats** | `当前目录未发现原始三表`, `不在本报告中虚构数据`, `脚本可复算`, `根据提示词要求` | 转化为正向业务口径，如 `表内勾稽一致`、`尚未接入底层合同台账` 或正常的空状态提示。 |
+| **Superseded & Correction Residue** | `人工审核 (已废弃自动审批)`, `旧版已下线`, `为什么不采用方案 A`, `修复后的新版` | 彻底移除旧版痕迹，页面直接呈现现行标准工作流；决策原因仅保留在复盘记录中。 |
+| **Meta-Bars & Delivery Wrappers** | 页面顶部常驻的 `.delivery-bar`、`交付说明`、`冻结版本说明栏` | 交付物本身保持干净全屏；交付操作（如导出、保存）融入系统原生顶栏或标准菜单。 |
 
-Examples illustrate the decision rules; their nouns and phrases are not a keyword blacklist.
+## Execution Workflow
 
-## Handoff gate
+```text
+[User Request / Correction]
+        │
+        ▼
+1. Extract Target Spec (Discard prompt control tokens)
+        │
+        ▼
+2. Pure Implementation (Build target business artifact only)
+        │
+        ▼
+3. Pre-Handoff Scan (Run grep/rg regex check on generated files)
+        │
+        ▼
+4. Visual/DOM Gate (Verify no hidden or visible meta-scaffolding)
+        │
+        ▼
+[Deliver Pure Artifact]
+```
 
-Do not hand off until all applicable checks pass:
+### Step 1: Extract & Classify
+Before writing any file, classify every piece of information:
+- **User-Facing:** Business data, valid states, operational controls, lawful disclosures.
+- **Internal/Control (Quarantined):** Build constraints, demo guidelines, model excuses, rejected requirements.
 
-- **Audience:** every visible element has an intended product audience.
-- **Task:** every visible element supports understanding, action, decision, or required disclosure.
-- **Authorization:** no optional idea was silently promoted into the artifact.
-- **Separation:** implementation constraints, presenter guidance, and design rationale remain outside the product surface.
-- **Current state:** superseded content and correction narration are absent from the current artifact and its active behavior.
-- **Artifact-only:** the result makes sense without the production conversation.
-- **Observed result:** relevant visible and interactive states were actually inspected when applicable.
+### Step 2: Implement Pure Target
+Write code and copy strictly in domain language. Keep presentation guidance in presenter notes, technical constraints in dev docs, and product behavior in product UI.
+
+### Step 3: Run Pre-Handoff Static Scan
+Before completing the turn, scan all generated or modified files for boundary leakage keywords:
+```bash
+# Prohibited residual scan command
+rg -i "(demo|mock|7分钟|七分钟|提示词|prompt|旧版|废弃|为什么|已移除|已下线|未虚构|脚本可|gen_html|当前目录未|delivery-bar)" <modified_files>
+```
+*If any match is found, verify whether it is domain-authorized. If it stems from the prompt context, clean it immediately.*
+
+### Step 4: Verification & Handoff Gate
+Do not hand off until all 4 criteria pass:
+- [ ] **Audience Validity:** Every visible text string serves the final audience's business workflow.
+- [ ] **Zero Prompt Echo:** No phrases from prompt constraints exist in UI titles, placeholders, or badges.
+- [ ] **Clean Cutover:** No negative rules or deprecated version residues remain from requirement changes.
+- [ ] **No Meta-Scaffolding:** No delivery explanation bars or developer status wrappers surround the artifact.
