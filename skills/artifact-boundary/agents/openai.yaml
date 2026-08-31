@@ -1,7 +1,0 @@
-interface:
-  display_name: "Artifact Boundary"
-  short_description: "Universal delivery gatekeeper: Keep prompt context, demo scaffolding, and correction residue out of finished deliverables"
-  default_prompt: "Apply $artifact-boundary to ensure the deliverable is pure, end-user-ready, and free of prompt leakage, demo scaffolding, model defenses, or deprecated version residue."
-
-policy:
-  allow_implicit_invocation: true

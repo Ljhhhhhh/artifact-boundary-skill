@@ -1,0 +1,7 @@
+interface:
+  display_name: "User-Facing Only"
+  short_description: "Keep internal build context out of finished deliverables"
+  default_prompt: "Use $user-facing-only to keep the finished deliverable limited to what its intended users need."
+
+policy:
+  allow_implicit_invocation: true

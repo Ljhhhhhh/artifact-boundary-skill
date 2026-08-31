@@ -1,8 +1,8 @@
-# Artifact Boundary
+# User-Facing Only
 
 [English](README.md) | [简体中文](README.zh-CN.md)
 
-[![Release](https://img.shields.io/github/v/release/Ljhhhhhh/artifact-boundary-skill?style=flat-square)](https://github.com/Ljhhhhhh/artifact-boundary-skill/releases/latest)
+[![Release](https://img.shields.io/github/v/release/Ljhhhhhh/user-facing-only-skill?style=flat-square)](https://github.com/Ljhhhhhh/user-facing-only-skill/releases/latest)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](LICENSE)
 [![Agent Skill](https://img.shields.io/badge/Agent-Skill-111827?style=flat-square)](https://agentskills.io)
 
@@ -14,23 +14,29 @@ When generating UI prototypes, code, or reports, AI models frequently leak promp
 - **Change requests become artifact titles:** A prompt asking to *"remove the export button"* produces the heading: *“Dashboard v2 (Export button removed)”*.
 - **Internal drafting constraints leak to clients:** A prompt requesting a *"polite status update"* begins with: *“As instructed, this report has been written in a polite tone...”*
 
-**Artifact Boundary** enforces a strict boundary between builder instructions and user-facing artifacts: **prompts guide construction, while deliverables serve the end user**. Temporary scaffolding, conversational reasoning, and discarded iterations are kept out of the final result.
+**User-Facing Only** enforces a strict boundary between builder instructions and user-facing artifacts: **prompts guide construction, while deliverables serve the end user**. Temporary scaffolding, conversational reasoning, and discarded iterations are kept out of the final result.
 
 ## Quick start
 
 Ask Codex to install the skill:
 
 ```text
-Use $skill-installer to install artifact-boundary from https://github.com/Ljhhhhhh/artifact-boundary-skill/tree/main/skills/artifact-boundary
+Use $skill-installer to install user-facing-only from https://github.com/Ljhhhhhh/user-facing-only-skill/tree/main/skills/user-facing-only
 ```
 
-Restart Codex after installation, then work normally. The skill supports automatic discovery when a request contains implementation constraints, demo guidance, internal reasoning, or corrected requirements.
+Restart Codex after installation, then work normally. Automatic discovery is limited to requests with a real user-facing leakage risk, such as demo or mock instructions, presenter guidance, internal rationale, temporary shortcuts, corrected requirements, or an explicit leakage review.
 
 You can also invoke it explicitly:
 
 ```text
-Use $artifact-boundary to review this prototype before handoff. Keep implementation constraints and presenter guidance out of the user-facing result.
+Use $user-facing-only to review this prototype before handoff. Keep implementation constraints and presenter guidance out of the user-facing result.
 ```
+
+## Automatic routing boundary
+
+Implicit invocation remains enabled for deliverables at real risk of exposing construction context or superseded requirements. Ordinary implementation work does not need this skill merely because it creates code, UI, APIs, scripts, or documentation.
+
+Explicit `$user-facing-only` invocation always remains available. Review-only requests produce findings without modifying the artifact.
 
 ## The failure mode
 
@@ -41,7 +47,7 @@ AI agents often treat every sentence in a request as candidate product content. 
 - **Wrong-surface content:** presenter notes, design rationale, or acceptance criteria appear in the product itself.
 - **Correction residue:** rejected ideas survive as “v2,” “removed,” negative rules, fixtures, or explanatory copy.
 
-Artifact Boundary addresses the decision error before copy is written.
+User-Facing Only addresses the decision error before copy is written.
 
 ## Before and after
 
@@ -57,26 +63,22 @@ Artifact Boundary addresses the decision error before copy is written.
 ```text
 User Request / Correction
     ↓
-Two-Pass Decoupling (Quarantine control context from target spec)
+Identify the latest authorized artifact, audience, and task
     ↓
-Pure Implementation (Build authorized domain artifact only)
+Build or review only that target
     ↓
-Pre-Handoff Static Scan (Regex scan for boundary leaks)
-    ↓
-Fresh User Blind Test Gate
+Inspect the result as a user who never saw the conversation
     ↓
 Deliver Pure Artifact
 ```
 
-The skill applies five core decisions:
+The skill follows one principle:
 
-1. **Two-Pass Decoupling** — isolate prompt control context (timings, defenses, mock notes) from target business specifications.
-2. **Fresh User Blind Test** — every visible element must make complete sense to a user who never saw the prompt.
-3. **Surgical Cutover** — rebuild from current target as if superseded features never existed, with zero negative rules or version tags.
-4. **Behavior as Behavior** — implement constraints as code logic rather than explanatory on-screen prose.
-5. **No Structural Meta-Scaffolding** — eliminate delivery explanation bars, prompt-defense banners, and developer wrappers.
+> The finished artifact contains only what its intended audience needs from the latest authorized requirements. Construction context guides implementation but does not become artifact content.
 
-See [`SKILL.md`](skills/artifact-boundary/SKILL.md) for the complete operating rules and cases.
+Corrections replace superseded product state. Required disclosures and legitimate history remain when the audience needs them. Review-only work reports findings without editing files.
+
+See [`SKILL.md`](skills/user-facing-only/SKILL.md) for the complete operating rules and cases.
 
 ## Good use cases
 
@@ -89,12 +91,13 @@ See [`SKILL.md`](skills/artifact-boundary/SKILL.md) for the complete operating r
 
 ## What this skill does not do
 
-Artifact Boundary is deliberately narrow. It does not:
+User-Facing Only is deliberately narrow. It does not:
 
 - act as a general UX-writing or accessibility audit;
 - decide API compatibility, migration, or versioning policy;
 - require provenance or sample-data labels by default;
 - require tests, comments, compatibility mechanisms, or legitimate historical records to be deleted;
+- decide artifact meaning from fixed words or mechanical content scans;
 - create presenter notes or technical documentation unless those artifacts are in scope;
 - replace domain-specific safety, legal, or product requirements.
 
@@ -104,21 +107,21 @@ Clone the repository into a stable source directory and link the skill into Code
 
 ```bash
 mkdir -p ~/.codex/skill-sources ~/.codex/skills
-git clone https://github.com/Ljhhhhhh/artifact-boundary-skill.git ~/.codex/skill-sources/artifact-boundary-skill
-ln -s ~/.codex/skill-sources/artifact-boundary-skill/skills/artifact-boundary ~/.codex/skills/artifact-boundary
+git clone https://github.com/Ljhhhhhh/user-facing-only-skill.git ~/.codex/skill-sources/user-facing-only-skill
+ln -s ~/.codex/skill-sources/user-facing-only-skill/skills/user-facing-only ~/.codex/skills/user-facing-only
 ```
 
 To update an existing clone:
 
 ```bash
-git -C ~/.codex/skill-sources/artifact-boundary-skill pull --ff-only
+git -C ~/.codex/skill-sources/user-facing-only-skill pull --ff-only
 ```
 
 Agents that discover the shared Agent Skills directory can link the same source:
 
 ```bash
 mkdir -p ~/.agents/skills
-ln -s ~/.codex/skill-sources/artifact-boundary-skill/skills/artifact-boundary ~/.agents/skills/artifact-boundary
+ln -s ~/.codex/skill-sources/user-facing-only-skill/skills/user-facing-only ~/.agents/skills/user-facing-only
 ```
 
 Do not create the link over an existing skill directory. Inspect or move the existing installation first.
@@ -127,8 +130,14 @@ Do not create the link over an existing skill directory. Inspect or move the exi
 
 ```text
 .
+├── .github/workflows/
+│   └── validate.yml
+├── evals/
+│   └── cases.md
+├── scripts/
+│   └── validate.py
 ├── skills/
-│   └── artifact-boundary/
+│   └── user-facing-only/
 │       ├── SKILL.md
 │       └── agents/
 │           └── openai.yaml
@@ -137,7 +146,7 @@ Do not create the link over an existing skill directory. Inspect or move the exi
 └── README.zh-CN.md
 ```
 
-The skill has no runtime dependencies, network calls, scripts, or bundled executables.
+The installed skill has no runtime dependencies, network calls, or bundled executables. Repository validation uses Python and PyYAML in CI; those development checks are not part of skill execution.
 
 ## Contributing
 
@@ -148,7 +157,9 @@ Issues and pull requests are welcome. The most useful contributions are minimal 
 - the expected current-state artifact;
 - why the example generalizes beyond one product or noun.
 
-Avoid adding keyword blacklists or universal rules based on a single failure. Changes should improve the underlying audience, authorization, content-qualification, or surface-routing decision.
+Keep the behavioral suite small and orthogonal in `evals/cases.md`. Deterministic CI validates package structure only; behavioral claims require fresh-context execution of the cases.
+
+Avoid adding keyword blacklists, taxonomies, or universal rules based on a single failure. Prefer the smallest change that improves the audience-and-authorization decision.
 
 ## License
 

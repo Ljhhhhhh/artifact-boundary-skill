@@ -1,8 +1,8 @@
-# Artifact Boundary
+# User-Facing Only
 
 [English](README.md) | [简体中文](README.zh-CN.md)
 
-[![Release](https://img.shields.io/github/v/release/Ljhhhhhh/artifact-boundary-skill?style=flat-square)](https://github.com/Ljhhhhhh/artifact-boundary-skill/releases/latest)
+[![Release](https://img.shields.io/github/v/release/Ljhhhhhh/user-facing-only-skill?style=flat-square)](https://github.com/Ljhhhhhh/user-facing-only-skill/releases/latest)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](LICENSE)
 [![Agent Skill](https://img.shields.io/badge/Agent-Skill-111827?style=flat-square)](https://agentskills.io)
 
@@ -14,23 +14,29 @@
 - **变更诉求变为产品标题**：请求中要求“去掉导出按钮”，生成的页面标题变成：*“数据看板 v2（已移除导出按钮）”*。
 - **撰写要求泄露给最终受众**：请求中注明“向客户汇报，语气委婉”，生成的报告第一句输出：*“本报告已按要求采用委婉语气编写……”*。
 
-**Artifact Boundary** 明确划分了“开发指令”与“产品内容”的边界：**Prompt 是给 Agent 的施工要求，交付物是面向最终用户的可用成品**。中间过程的脚手架、多轮讨论痕迹与已废弃方案均被隔离在成品之外。
+**User-Facing Only** 明确划分了“开发指令”与“产品内容”的边界：**Prompt 是给 Agent 的施工要求，交付物是面向最终用户的可用成品**。中间过程的脚手架、多轮讨论痕迹与已废弃方案均被隔离在成品之外。
 
 ## 快速上手
 
 直接让 Codex 安装此 Skill：
 
 ```text
-使用 $skill-installer 从 https://github.com/Ljhhhhhh/artifact-boundary-skill/tree/main/skills/artifact-boundary 安装 artifact-boundary
+使用 $skill-installer 从 https://github.com/Ljhhhhhh/user-facing-only-skill/tree/main/skills/user-facing-only 安装 user-facing-only
 ```
 
-安装完成后重启 Codex 即可正常使用。当用户请求中包含实现约束、演示说明、内部推演或被纠正过的需求时，Codex 会自动识别并触发该 Skill。
+安装完成后重启 Codex 即可正常使用。只有当请求确实存在交付边界风险时，Codex 才应自动考虑该 Skill，例如演示或 Mock 说明、演讲提示、内部推演、临时捷径、被纠正的需求，或明确要求检查过程语境泄漏。
 
 你也可以显式调用它：
 
 ```text
-使用 $artifact-boundary 在交付前审查该原型，确保实现约束与演讲者提示不会泄漏到面向用户的界面中。
+使用 $user-facing-only 在交付前审查该原型，确保实现约束与演讲者提示不会泄漏到面向用户的界面中。
 ```
+
+## 自动触发边界
+
+本 Skill 保持隐式调用能力，但只面向确实可能泄漏施工语境或废弃需求的交付物。普通代码、UI、API、脚本或文档开发，不会仅因产物类型而启用该 Skill。
+
+用户始终可以显式调用 `$user-facing-only`。若请求仅要求评审，Skill 只能报告问题，不得修改交付物。
 
 ## 它解决什么问题
 
@@ -41,7 +47,7 @@ AI Agent 经常把请求中的每一句话都当作候选产品内容，由此�
 - **载体错位**：演说备注、设计推演或验收标准，被摆在最终用户界面上。
 - **修改残留**：被否决的设计以“v2”、“已去除某功能”、负向禁令规则或解释性文案的形式留在成品中。
 
-Artifact Boundary 在文案落笔前，先从决策层纠正这一认知偏差。
+User-Facing Only 在文案落笔前，先从决策层纠正这一认知偏差。
 
 ## 效果对比
 
@@ -57,26 +63,22 @@ Artifact Boundary 在文案落笔前，先从决策层纠正这一认知偏差�
 ```text
 用户请求 / 变更指令
     ↓
-两段式解耦（业务规格 vs 控制语境隔离）
+确定最新授权产物、受众与任务
     ↓
-纯净构建（仅实现授权业务目标，行为沉入代码）
+只构建或评审该目标
     ↓
-交付前静态机检（正则扫描残留词汇）
-    ↓
-陌生用户盲测验收门禁
+以从未看过开发对话的用户视角检查结果
     ↓
 交付纯净成品
 ```
 
-该 Skill 贯彻五项核心决策法则：
+该 Skill 只遵循一条原则：
 
-1. **两段式解耦（Two-Pass Decoupling）**：将输入拆分为“业务终态规格”与“构建控制语境”，严防控制词汇渗透至界面与文案。
-2. **陌生用户盲测准则（Fresh User Blind Test）**：每一个界面元素必须能被从未看过提示词的真实业务用户理解和使用。
-3. **外科手术式无痕替换（Surgical Cutover）**：需求变更时彻底抹去废弃痕迹，不留“v2”、“已去除某功能”等历史残余。
-4. **正确定位载体（Behavior as Behavior）**：系统行为与实现约束写成代码逻辑而非文字叙述；演说提示留在独立文档中。
-5. **坚决去除元脚手架（No Structural Meta-Scaffolding）**：不在成品上方或外层包裹交付说明栏、免责横幅或脚手架容器。
+> 成品只包含最终受众从最新授权需求中完成任务所需要的内容；施工语境只影响实现，不成为成品内容。
 
-完整规则与案例判定详见 [`SKILL.md`](skills/artifact-boundary/SKILL.md)。
+需求纠正会替换旧的产品状态。受众需要的必要披露与合法历史仍然保留。只读评审只报告问题，不修改文件。
+
+完整规则与案例判定详见 [`SKILL.md`](skills/user-facing-only/SKILL.md)。
 
 ## 适用场景
 
@@ -89,12 +91,13 @@ Artifact Boundary 在文案落笔前，先从决策层纠正这一认知偏差�
 
 ## 明确非目标（本 Skill 不做什么）
 
-Artifact Boundary 始终保持精准克制，它**不**负责：
+User-Facing Only 始终保持精准克制，它**不**负责：
 
 - 充当通用的 UX 文案润色或无障碍（Accessibility）审计；
 - 代替系统设计去决策 API 兼容性、迁移方案或版本演进策略；
 - 默认强加数据来源追溯或样例数据声明标签；
 - 擅自删除工程测试、代码注释、兼容适配机制或合法的工程历史记录；
+- 根据固定词语或机械扫描判断内容含义；
 - 在用户未明确要求的情况下，额外生成演讲者备注或技术背景文档；
 - 替代特定业务领域的安全、法务合规或专有产品规范。
 
@@ -104,21 +107,21 @@ Artifact Boundary 始终保持精准克制，它**不**负责：
 
 ```bash
 mkdir -p ~/.codex/skill-sources ~/.codex/skills
-git clone https://github.com/Ljhhhhhh/artifact-boundary-skill.git ~/.codex/skill-sources/artifact-boundary-skill
-ln -s ~/.codex/skill-sources/artifact-boundary-skill/skills/artifact-boundary ~/.codex/skills/artifact-boundary
+git clone https://github.com/Ljhhhhhh/user-facing-only-skill.git ~/.codex/skill-sources/user-facing-only-skill
+ln -s ~/.codex/skill-sources/user-facing-only-skill/skills/user-facing-only ~/.codex/skills/user-facing-only
 ```
 
 后续更新已有克隆：
 
 ```bash
-git -C ~/.codex/skill-sources/artifact-boundary-skill pull --ff-only
+git -C ~/.codex/skill-sources/user-facing-only-skill pull --ff-only
 ```
 
 若其他 Agent 遵循通用的 Agent Skills 目录规范，也可链接至同一源目录：
 
 ```bash
 mkdir -p ~/.agents/skills
-ln -s ~/.codex/skill-sources/artifact-boundary-skill/skills/artifact-boundary ~/.agents/skills/artifact-boundary
+ln -s ~/.codex/skill-sources/user-facing-only-skill/skills/user-facing-only ~/.agents/skills/user-facing-only
 ```
 
 > **注意：** 请勿在已存在的同名 Skill 目录上强行创建链接。若已存在，请先备份或迁移旧目录。
@@ -127,8 +130,14 @@ ln -s ~/.codex/skill-sources/artifact-boundary-skill/skills/artifact-boundary ~/
 
 ```text
 .
+├── .github/workflows/
+│   └── validate.yml
+├── evals/
+│   └── cases.md
+├── scripts/
+│   └── validate.py
 ├── skills/
-│   └── artifact-boundary/
+│   └── user-facing-only/
 │       ├── SKILL.md
 │       └── agents/
 │           └── openai.yaml
@@ -137,7 +146,7 @@ ln -s ~/.codex/skill-sources/artifact-boundary-skill/skills/artifact-boundary ~/
 └── README.zh-CN.md
 ```
 
-本 Skill 纯粹基于提示指令驱动，无额外运行时依赖、外部网络调用、独立脚本或捆绑二进制文件。
+安装后的 Skill 仍无运行时依赖、外部网络调用或捆绑二进制文件。仓库级验证在 CI 中使用 Python 与 PyYAML；这些开发检查不会参与 Skill 的实际执行。
 
 ## 参与贡献
 
@@ -148,7 +157,9 @@ ln -s ~/.codex/skill-sources/artifact-boundary-skill/skills/artifact-boundary ~/
 - 符合当前授权边界的预期正确交付物；
 - 该案例具有通用性而非特定产品偶发特例的说明。
 
-请避免基于单一特例堆砌“关键词黑名单”或机械的绝对规则。任何演进都应旨在提升对受众诉求、授权范围、内容准入或载体路由的底层辨识能力。
+回归案例应在 `evals/cases.md` 中保持少量且正交。确定性 CI 只验证包结构；行为结论必须在全新上下文中实际运行案例后才能成立。
+
+请避免基于单一特例堆砌关键词黑名单、分类体系或机械的绝对规则。优先采用能够改善受众与授权判断的最小变更。
 
 ## 开源协议
 
